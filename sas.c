@@ -8,18 +8,19 @@ struct tache {
 };
 
 void creer(struct tache *tache) {
-    printf("title : ");
-    scanf("%[^\n]%*c", tache->title); 
+    printf("Title : ");
+    scanf(" %[^\n]%*c", tache->title); 
 
-    printf("description : ");
-    scanf("%[^\n]%*c", &tache->description); 
+    printf("Description : ");
+    scanf(" %[^\n]%*c", tache->description); 
 
-    printf("date : ");
+    printf("Date (format: YYYY-MM-DD) : ");
     scanf("%9s", tache->date); 
 
-    printf("priorite(1 for high, 0 for low) : ");
-    scanf("%d", tache->priorite); 
+    printf("Priorite (1 for High, 0 for Low) : ");
+    scanf("%d", &tache->priorite); 
 }
+
 
 void afficher(struct tache tache) {
     printf("----------------------- Informations de %s ----------------------\n", tache.title);
@@ -30,16 +31,16 @@ void afficher(struct tache tache) {
 }
 
 void modifie(struct tache *tache) {
-    printf("Modifier le title : ");
+    printf("Modifier le title : \n");
     scanf("%s", tache->title); 
 
-    printf("Modifier description : ");
+    printf("Modifier description : \n");
     scanf("%d", &tache->description); 
 
-    printf("Modifier date : ");
+    printf("Modifier date : \n");
     scanf("%s", tache->date); 
 
-    printf("Modifier la priorite : ");
+    printf("Modifier la priorite : \n");
     scanf("%s", tache->priorite); 
 
 }
