@@ -45,12 +45,6 @@ void modifie(struct tache *tache) {
 
 }
 
-void supprimer(struct tache tache[], int *nbrtache, int index) {
-    for (int i = index; i < (*nbrtache) - 1; i++) {
-        tache[i] = tache[i + 1];
-    }
-    (*nbrtache)--;
-}
 
 int main() {
     struct tache tache[50];  
@@ -117,6 +111,8 @@ int main() {
                     }
                 }
                 break;
+
+           
 
             case 5: 
                 printf("Au revoir!\n");
