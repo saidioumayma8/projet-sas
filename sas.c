@@ -51,6 +51,14 @@ void supprimer(struct tache tache[], int *nbrtache, int index) {
     }
     (*nbrtache)--;
 }
+void filtrer_par_priorite(struct tache taches[], int nbrtache, int priorite) {
+    printf("\n--- Tâches avec priorité %s ---\n", priorite == 0 ? "High" : "Low");
+    for (int i = 0; i < nbrtache; i++) {
+        if (taches[i].priorite == priorite) {
+            afficher(taches[i]);
+        }
+    }
+}
 
 
 int main() {
@@ -119,9 +127,17 @@ int main() {
                 }
                 break;
 
-           
+           if (nbrtache == 0) {
+                    printf("Aucune Tâche enregistrée.\n");
+                } else {
+                    int priorite;
+                    printf("Entrez la Priorité à filtrer (0 pour High, 1 pour Low) : ");
+                    scanf("%d", &priorite);
+                    filtrer_par_priorite(tache, nbrtache, priorite);
+                }
+                break;
 
-            case 5: 
+            case 6: 
                 printf("Au revoir!\n");
                 break;
 
