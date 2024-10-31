@@ -16,6 +16,7 @@ void get_current_date(char *current_date) {
 }
 
 void creer(struct tache *tache) {
+    int year, month, day;
     char current_date[11];
     get_current_date(current_date);
 
@@ -25,17 +26,19 @@ void creer(struct tache *tache) {
     printf("Description : ");
     scanf(" %[^\n]%*c", tache->description); 
 
-    while (1) {
+    while (1) {  // Loop until a valid date is entered
         printf("Date (YYYY-MM-DD): ");
-        scanf("%10s", tache->date); // Read the date
+        scanf("%4d-%2d-%2d", &year, &month, &day); // Read the date in YYYY-MM-DD format
 
-        // If the date entered is less than today's date
-        if (strcmp(tache->date, current_date) < 0) {
-            printf("Date must be today or in the future. Please enter again.\n");
+        // Validate date components
+        if (year >= 2024 && month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+            sprintf(tache->date, "%04d-%02d-%02d", year, month, day); // Store valid date
+            break; // Exit the loop if the date is valid
         } else {
-            break; // Valid date
+            // Invalid date entered
+            printf("Invalid date entered. Please enter a valid date (YYYY-MM-DD) .\n");
         }
-    } 
+    }
 
     printf("Priorite (1 for High, 0 for Low) : ");
     scanf("%d", &tache->priorite); 
@@ -163,7 +166,7 @@ int main() {
             default:
                 printf("Choix invalide. Veuillez reessayer.\n");
         }
-    } while (choix != 6); // Change condition to 6 for quitting
+    } while (choix != 6); 
 
     return 0;
 }
