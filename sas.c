@@ -26,16 +26,14 @@ void creer(struct tache *tache) {
     printf("Description : ");
     scanf(" %[^\n]%*c", tache->description); 
 
-    while (1) {  // Loop until a valid date is entered
+    while (1) { 
         printf("Date (YYYY-MM-DD): ");
-        scanf("%4d-%2d-%2d", &year, &month, &day); // Read the date in YYYY-MM-DD format
+        scanf("%4d-%2d-%2d", &year, &month, &day); 
 
-        // Validate date components
         if (year >= 2024 && month >= 1 && month <= 12 && day >= 1 && day <= 31) {
-            sprintf(tache->date, "%04d-%02d-%02d", year, month, day); // Store valid date
-            break; // Exit the loop if the date is valid
+            sprintf(tache->date, "%04d-%02d-%02d", year, month, day);
+            break; 
         } else {
-            // Invalid date entered
             printf("Invalid date entered. Please enter a valid date (YYYY-MM-DD) .\n");
         }
     }
