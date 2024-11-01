@@ -9,16 +9,49 @@ struct tache {
     int priorite;
 };
 
-void get_current_date(char *current_date) {
-    time_t now = time(NULL);
-    struct tm *today = localtime(&now);
-    sprintf(current_date, "%4d-%2d-%2d", today->tm_year + 1900, today->tm_mon + 1, today->tm_mday);
+void SortByAscendingDate(struct tache tache[], int taskCount) {
+    for (int i = 0; i < taskCount - 1; i++) {  // sorting tasks in ascending order
+        int indexMin = i;
+        for (int j = i + 1; j < taskCount; j++) {
+            if (strcmp(tache[j].date, tache[indexMin].date) < 0) {
+                indexMin = j;
+            }
+        }
+        // Swap if a smaller element was found
+        if (indexMin != i) {
+            struct tache temp = tache[i];
+            tache[i] = tache[indexMin];
+            tache[indexMin] = temp;
+        }
+    }
+
+    printf("Tasks ordered by ascending date\n");
+    printf("--------------------------------------------\n");
+}
+
+void SortByDescendingDate(struct tache tache[], int taskCount) {
+    for (int i = 0; i < taskCount - 1; i++) {  // sorting tasks in descending order
+        int indexMax = i;
+        for (int j = i + 1; j < taskCount; j++) {
+            if (strcmp(tache[j].date, tache[indexMax].date) > 0) {
+                indexMax = j;
+            }
+        }
+        // Swap if a larger element was found
+        if (indexMax != i) {
+            struct tache temp = tache[i];
+            tache[i] = tache[indexMax];
+            tache[indexMax] = temp;
+        }
+    }
+
+    printf("Tasks ordered by descending date\n");
+    printf("--------------------------------------------\n");
 }
 
 void creer(struct tache *tache) {
     int year, month, day;
-    char current_date[11];
-    get_current_date(current_date);
+    char input[11];
 
     printf("Title : ");
     scanf(" %[^\n]%*c", tache->title); 
@@ -36,10 +69,12 @@ void creer(struct tache *tache) {
         } else {
             printf("Invalid date entered. Please enter a valid date (YYYY-MM-DD) .\n");
         }
+
     }
 
     printf("Priorite (1 for High, 0 for Low) : ");
     scanf("%d", &tache->priorite); 
+   
 }
 
 void afficher(struct tache tache) {
@@ -92,7 +127,9 @@ int main() {
         printf("3. Modifier une Tache\n");
         printf("4. Supprimer une Tache\n");
         printf("5. Filtrer les Taches\n");
-        printf("6. Quitter\n");
+        printf("6. tri croissant \n");
+        printf("7. tri decroissant\n");
+        printf("8. Quitter\n");
         printf("Choisissez une option : ");
         scanf("%d", &choix);
 
@@ -156,15 +193,38 @@ int main() {
                     filtrer_par_priorite(tache, nbrtache, priorite);
                 }
                 break;
+            case 6:
+                if (nbrtache == 0) {
+                    printf("Aucune Tache enregistree.\n");
+                } else {
+                    SortByAscendingDate(tache, nbrtache);
+                        for (int i = 0; i < nbrtache; i++) {
+                        afficher(tache[i]);
+                    }
 
-            case 6: 
+                }
+                break;
+            case 7:
+                if (nbrtache == 0) {
+                    printf("Aucune Tache enregistree.\n");
+                } else {
+                     SortByDescendingDate(tache, nbrtache);
+                  for (int i = 0; i < nbrtache; i++) {
+                        afficher(tache[i]);
+                    }
+
+                }
+                break;
+            
+
+            case 8: 
                 printf("Au revoir!\n");
                 break;
 
             default:
                 printf("Choix invalide. Veuillez reessayer.\n");
         }
-    } while (choix != 6); 
+    } while (choix != 8); 
 
     return 0;
 }
