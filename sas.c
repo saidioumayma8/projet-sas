@@ -7,6 +7,7 @@ struct tache {
     char description[100];
     char date[11]; // Changed to 11 for YYYY-MM-DD format
     int priorite;
+    int status;
 };
 
 void SortByAscendingDate(struct tache tache[], int taskCount) {
@@ -83,6 +84,7 @@ void afficher(struct tache tache) {
     printf("description : %s\n", tache.description);
     printf("date : %s\n", tache.date);  
     printf("priorite : %s\n", tache.priorite ? "High" : "Low");  
+    printf("status : %s\n", tache.status ? "complaite" : "Low");  
 }
 
 void modifie(struct tache *tache) {
@@ -106,6 +108,15 @@ void supprimer(struct tache tache[], int *nbrtache, int index) {
     (*nbrtache)--;
 }
 
+void filtrer_par_statut(struct tache taches[], int nbrtache, int status) {
+    printf("\n--- Tâches avec statut %s ---\n", status == 1 ? "Complete" : "Incomplete");
+    for (int i = 0; i < nbrtache; i++) {
+        if (taches[i].status == status) {
+            afficher(taches[i]);
+        }
+    }
+}
+
 void filtrer_par_priorite(struct tache taches[], int nbrtache, int priorite) {
     printf("\n--- Tâches avec priorite %s ---\n", priorite == 0 ? "High" : "Low");
     for (int i = 0; i < nbrtache; i++) {
@@ -126,12 +137,13 @@ int main() {
         printf("2. Afficher la Liste des Tches\n");
         printf("3. Modifier une Tache\n");
         printf("4. Supprimer une Tache\n");
-        printf("5. Filtrer les Taches\n");
-        printf("6. tri croissant \n");
-        printf("7. tri decroissant\n");
-        printf("8. Quitter\n");
-        printf("Choisissez une option : ");
-        scanf("%d", &choix);
+        printf("5. Filtrer par prioeite\n");
+        printf("6. Filtrer par status\n");
+        printf("7. tri croissant \n");
+        printf("8. tri decroissant\n");
+        printf("9. Quitter\n");
+        printf("hoisissez une option : ");
+        scanf("%9", &choix);
 
         switch (choix) {
             case 1: 
@@ -197,6 +209,16 @@ int main() {
                 if (nbrtache == 0) {
                     printf("Aucune Tache enregistree.\n");
                 } else {
+                    int status;
+                    printf("Entrez la status à filtrer (0 pour incomplete, 1 pour complete) : ");
+                    scanf("%d", &status);
+                    filtrer_par_statut(tache, nbrtache, status);
+                }
+                break;
+            case 7:
+                if (nbrtache == 0) {
+                    printf("Aucune Tache enregistree.\n");
+                } else {
                     SortByAscendingDate(tache, nbrtache);
                         for (int i = 0; i < nbrtache; i++) {
                         afficher(tache[i]);
@@ -204,7 +226,7 @@ int main() {
 
                 }
                 break;
-            case 7:
+            case 8:
                 if (nbrtache == 0) {
                     printf("Aucune Tache enregistree.\n");
                 } else {
@@ -217,14 +239,14 @@ int main() {
                 break;
             
 
-            case 8: 
+            case 9: 
                 printf("Au revoir!\n");
                 break;
 
             default:
                 printf("Choix invalide. Veuillez reessayer.\n");
         }
-    } while (choix != 8); 
+    } while (choix != 9); 
 
     return 0;
 }
