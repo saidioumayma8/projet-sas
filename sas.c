@@ -5,20 +5,19 @@
 struct tache {
     char title[100];
     char description[100];
-    char date[11]; // Changed to 11 for YYYY-MM-DD format
+    char date[11]; 
     int priorite;
     int status;
 };
 
 void SortByAscendingDate(struct tache tache[], int taskCount) {
-    for (int i = 0; i < taskCount - 1; i++) {  // sorting tasks in ascending order
+    for (int i = 0; i < taskCount - 1; i++) { 
         int indexMin = i;
         for (int j = i + 1; j < taskCount; j++) {
             if (strcmp(tache[j].date, tache[indexMin].date) < 0) {
                 indexMin = j;
             }
         }
-        // Swap if a smaller element was found
         if (indexMin != i) {
             struct tache temp = tache[i];
             tache[i] = tache[indexMin];
@@ -31,14 +30,13 @@ void SortByAscendingDate(struct tache tache[], int taskCount) {
 }
 
 void SortByDescendingDate(struct tache tache[], int taskCount) {
-    for (int i = 0; i < taskCount - 1; i++) {  // sorting tasks in descending order
+    for (int i = 0; i < taskCount - 1; i++) {  
         int indexMax = i;
         for (int j = i + 1; j < taskCount; j++) {
             if (strcmp(tache[j].date, tache[indexMax].date) > 0) {
                 indexMax = j;
             }
         }
-        // Swap if a larger element was found
         if (indexMax != i) {
             struct tache temp = tache[i];
             tache[i] = tache[indexMax];
@@ -84,7 +82,7 @@ void afficher(struct tache tache) {
     printf("description : %s\n", tache.description);
     printf("date : %s\n", tache.date);  
     printf("priorite : %s\n", tache.priorite ? "High" : "Low");  
-    printf("status : %s\n", tache.status ? "complaite" : "Low");  
+    printf("status : %s\n", tache.status ? "complete" : "incomplete");  
 }
 
 void modifie(struct tache *tache) {
@@ -117,8 +115,13 @@ void filtrer_par_statut(struct tache taches[], int nbrtache, int status) {
     }
 }
 
+void Status(struct tache *tache) {
+    tache->status = !tache->status;
+    printf("Task marked as %s.\n", tache->status ? "Complete" : "Incomplete");
+}
+
 void filtrer_par_priorite(struct tache taches[], int nbrtache, int priorite) {
-    printf("\n--- Tâches avec priorite %s ---\n", priorite == 0 ? "High" : "Low");
+    printf("\n--- Tâches avec priorite %s ---\n", priorite == 1 ? "High" : "Low");
     for (int i = 0; i < nbrtache; i++) {
         if (taches[i].priorite == priorite) {
             afficher(taches[i]);
@@ -141,9 +144,10 @@ int main() {
         printf("6. Filtrer par status\n");
         printf("7. tri croissant \n");
         printf("8. tri decroissant\n");
-        printf("9. Quitter\n");
+        printf("9. marquer une tache comme complete/incomplete\n");
+        printf("10. Quitter\n");
         printf("hoisissez une option : ");
-        scanf("%9", &choix);
+        scanf("%d", &choix);
 
         switch (choix) {
             case 1: 
@@ -237,16 +241,29 @@ int main() {
 
                 }
                 break;
+            case 9:
+                if (nbrtache == 0) {
+                    printf("Aucune tache enregistree.\n");
+                } else {
+                    printf("Entrez l'indice de la tache à marquer comme Complete/Incomplete (0 à %d) : ", nbrtache - 1);
+                    scanf("%d", &indice);
+                    if (indice >= 0 && indice < nbrtache) {
+                        Status(&tache[indice]);
+                    } else {
+                        printf("Indice invalide.\n");
+                    }
+                }
+                break;
             
 
-            case 9: 
+            case 10: 
                 printf("Au revoir!\n");
                 break;
 
             default:
                 printf("Choix invalide. Veuillez reessayer.\n");
         }
-    } while (choix != 9); 
+    } while (choix != 10); 
 
     return 0;
 }
